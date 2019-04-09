@@ -45,7 +45,7 @@ R640_DRAC_versions = [
     ]
 
 def drac_sysinfo_update(ip, drac_user, drac_pass):
-    child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' -i getsysinfo', timeout=300)
+    child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' --nocertwarn -i getsysinfo', timeout=300)
     child.expect('UserName: ')
     child.sendline(drac_user)
     child.expect('Password: ')
@@ -104,7 +104,7 @@ def drac_check_next_upgrade(drac_list, drac_version):
 
 def drac_upgrade(chassis, ip, drac_user, drac_pass, drac_upgrade_version):
     print('Using ' + drac_upgrade_version + ' - this will take about 30-60mins.')
-    child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' -i update -f ./' + chassis + '/' + drac_upgrade_version,timeout=7200)
+    child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' --nocertwarn -i update -f ./' + chassis + '/' + drac_upgrade_version,timeout=7200)
     child.delaybeforesend = 1
     child.expect('UserName:')
     child.sendline(drac_user)
