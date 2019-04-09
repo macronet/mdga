@@ -6,20 +6,8 @@ import getpass
 import pexpect
 from time import sleep
 
-arguments = sys.argv[1:]
-passwordfile = ''
-
-sysinfo = ''
-chassis = ''
 chassis_supported = ['R620','R630','R640']
-dracuser = 'root'
-dracpass = ''
-dracip = ''
-dracversion = ''
-dracmajor = ''
-dracminor = ''
-draclist = []
-dracupgradeversion = ''
+drac_user = 'root'
 
 R620_DRAC_versions = [
     ['2.61.60.60','iDRAC-with-Lifecycle-Controller_Firmware_VYGMM_WN64_2.61.60.60_A00_02.EXE'],
@@ -41,94 +29,121 @@ R640_DRAC_versions = [
     ['3.21.21.21','iDRAC-with-Lifecycle-Controller_Firmware_387FW_WN64_3.21.21.21_A00.EXE']
     ]
 
-try:
-    opts, args = getopt.getopt(arguments,"d:p:")
-except getopt.GetoptError:
-    print('.py -d <DRAC IP> -p <read password from file (optional)>')
-    sys.exit(2)
-for opt, arg in opts:
-    if opt == '-d':
-        dracip = arg
-    elif opt == '-p':
-        passwordfile = './' + arg
-        with open(passwordfile) as f:
-            dracpass = f.readline()
-
-if(dracip == ''):
-    print ('.py -d <DRAC IP> -p <read password from file (optional)>')
-    sys.exit(2)
-if(dracpass == ''):
-    dracpass = getpass.getpass(prompt='DRAC password:')
-
-def drac_sysinfo_update(ip,dracuser,dracpass):
-    print('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' -i getsysinfo')
-    child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' -i getsysinfo',timeout=300)
+def drac_sysinfo_update(ip, drac_user, drac_pass):
+    child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' -i getsysinfo', timeout=300)
     child.expect('UserName: ')
-    child.sendline(dracuser)
+    child.sendline(drac_user)
     child.expect('Password: ')
-    child.sendline(dracpass)
+    child.sendline(drac_pass)
     child.expect('Embedded NIC MAC Addresses:')
     return(child.before)
 
-def drac_check_next_upgrade(draclist,dracversion):
-    print('Current DRAC firmware: '+ dracversion)
-    dracupgradeversion=''
-    i = 0
-    draclist.sort(reverse = True)
-    # Hardcoded upgrade path for v1 -> v2
-    if dracmajor == '1':
-        if dracminor >= '66':
-            dracupgradeversion = 'iDRAC-with-Lifecycle-Controller_Firmware_Y5K20_WN32_2.10.10.10_A00.EXE'
+def split_drac_version(version):
+    return version.split('.')
+
+def is_superior_version(ver1, ver2):
+    version1 = split_drac_version(ver1)
+    version2 = split_drac_version(ver2)
+
+    # Going through semantic versioning
+    for sem1 in version1:
+        sem2 = version2[version1.index(sem1)]
+        if sem1 == sem2:
+            continue
         else:
-            dracupgradeversion = 'ESM_Firmware_3F4WV_WN64_1.66.65_A00.EXE'
-    if dracmajor == '2':
-        while i < len(draclist):
-            print('Check upgrade to ' + draclist[i][0])
-            if dracversion < draclist[i][0]:
-                dracupgradeversion = draclist[i][1]
-                print('Newer, selected ' + draclist[i][0])
-            i += 1
-    if dracmajor == '3':
-        while i < len(draclist):
-            print('Check upgrade to ' + draclist[i][0])
-            if dracversion < draclist[i][0]:
-                dracupgradeversion = draclist[i][1]
-                print('Newer, selected ' + draclist[i][0])
-            i += 1
-    if dracupgradeversion == '':
-        print('Already up-to-date (or not supported by script).')
+            if int(sem1) > int(sem2):
+                return True
+            else:
+                return False
+    
+    # Versions are an exact match
+    return False
+
+def drac_check_next_upgrade(drac_list, drac_version):
+    print('Current DRAC firmware: '+ drac_version)
+
+    version_list = split_drac_version(drac_version)
+    drac_major = version_list[0]
+    drac_minor = version_list[1]
+
+    drac_upgrade_version=''
+    drac_list.sort(reverse = True)
+    
+    if drac_major == '1': # Hardcoded upgrade path for v1 -> v2
+        if drac_minor >= '66':
+            drac_upgrade_version = 'iDRAC-with-Lifecycle-Controller_Firmware_Y5K20_WN32_2.10.10.10_A00.EXE'
+        else:
+            drac_upgrade_version = 'ESM_Firmware_3F4WV_WN64_1.66.65_A00.EXE'
+    elif drac_major in ['2', '3']:
+        for i in drac_list:
+            print('Check upgrade to ' + i[0])
+            if is_superior_version(i[0], drac_version):
+                drac_upgrade_version = i[1]
+                print('Newer, selected ' + i[0])
+                return drac_upgrade_version
+    else:
+        print('Version ' + drac_version + 'already up-to-date (or not supported by script).')
         sys.exit(0)
-    return(dracupgradeversion)
 
-if chassis in chassis_supported:
-    print(chassis + ' is supported for updates.')
-    draclist = globals()[chassis + '_DRAC_versions']
-    dracupgradeversion = drac_check_next_upgrade(draclist,dracversion)
-else:
-    print(chassis + ' is not supported for updates.')
+    return drac_upgrade_version
 
-def drac_upgrade(ip,dracuser,dracpass,dracupgradeversion):
-    print('Using ' + dracupgradeversion + ' - this will take about 30-60mins.')
-    print('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' -i update -f ./' + chassis + '/' + dracupgradeversion)
-    child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' -i update -f ./' + chassis + '/' + dracupgradeversion,timeout=7200)
+
+def drac_upgrade(chassis, ip, drac_user, drac_pass, drac_upgrade_version):
+    print('Using ' + drac_upgrade_version + ' - this will take about 30-60mins.')
+    child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' -i update -f ./' + chassis + '/' + drac_upgrade_version,timeout=7200)
     child.delaybeforesend = 1
     child.expect('UserName:')
-    child.sendline(dracuser)
+    child.sendline(drac_user)
     child.expect('Password:')
-    child.sendline(dracpass)
+    child.sendline(drac_pass)
     child.expect(pexpect.EOF)
     #child.expect('To reboot the system  manually, use the "racadm serveraction powercycle" command.')
     return True
 
-while True:
-    sysinfo = drac_sysinfo_update(dracip,dracuser,dracpass)
-    biosversion = [line for line in sysinfo.split('\n') if "System BIOS Version" in line][-1].split()[-1]
-    chassis = [line for line in sysinfo.split('\n') if "System Model" in line][-1].split()[-1]
-    dracversion = [line for line in sysinfo.split('\n') if "Firmware Version" in line][-1].split()[-1]
-    print('We are dealing with a ' + chassis + ', BIOS version ' + biosversion + ' and DRAC firmware ' + dracversion)
-    dracmajor = dracversion.split(".")[0]
-    dracminor = dracversion.split(".")[1]
-    drac_check_next_upgrade(draclist,dracversion)
-    drac_upgrade(dracip,dracuser,dracpass,dracupgradeversion)
-    # Let DRAC settle for 10 minutes after upgrade
-    sleep(600)
+def main():
+    arguments = sys.argv[1:]
+    drac_pass = ''
+    drac_ip = ''
+
+    try:
+        opts, _ = getopt.getopt(arguments,"d:p:")
+    except getopt.GetoptError:
+        print('Usage:', sys.argv[0], '-d <DRAC IP> -p <read password from file (optional)>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-d':
+            drac_ip = arg
+        elif opt == '-p':
+            password_file = './' + arg
+            with open(password_file) as f:
+                drac_pass = f.readline()
+
+    if(drac_ip == ''):
+        print('Usage:', sys.argv[0], '-d <DRAC IP> -p <read password from file (optional)>')
+        sys.exit(2)
+    if(drac_pass == ''):
+        drac_pass = getpass.getpass(prompt='DRAC password:')
+    
+    while True:
+        sysinfo = drac_sysinfo_update(drac_ip, drac_user, drac_pass)
+        bios_version = [line for line in sysinfo.split('\n') if "System BIOS Version" in line][-1].split()[-1]
+        chassis = [line for line in sysinfo.split('\n') if "System Model" in line][-1].split()[-1]
+        drac_version = [line for line in sysinfo.split('\n') if "Firmware Version" in line][-1].split()[-1]
+        
+        if chassis in chassis_supported:
+            print(chassis + ' is supported for updates.')
+            drac_list = globals()[chassis + '_DRAC_versions']
+            drac_upgrade_version = drac_check_next_upgrade(drac_list, drac_version)
+        else:
+            print(chassis + ' is not supported for updates.')
+            sys.exit(1)
+        
+        print('We are dealing with a', chassis, ', BIOS version', bios_version, 'and DRAC firmware', drac_version)
+                
+        drac_check_next_upgrade(drac_list, drac_version)
+        drac_upgrade(chassis, drac_ip, drac_user, drac_pass, drac_upgrade_version)
+        # Let DRAC settle for 10 minutes after upgrade
+        sleep(600)
+
+if __name__ == "__main__":
+    main()
