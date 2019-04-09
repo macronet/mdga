@@ -86,7 +86,7 @@ def drac_check_next_upgrade(drac_list, drac_version):
     
     if drac_major == '1': # Hardcoded upgrade path for v1 -> v2
         if drac_minor >= '66':
-            drac_upgrade_version = 'iDRAC-with-Lifecycle-Controller_Firmware_Y5K20_WN32_2.10.10.10_A00.EXE'
+            drac_upgrade_version = 'iDRAC-with-LCC_Y5K20_WN32_2.10.10.10_A00.EXE'
         else:
             drac_upgrade_version = 'ESM_Firmware_3F4WV_WN64_1.66.65_A00.EXE'
     elif drac_major in ['2', '3']:
