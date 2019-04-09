@@ -67,7 +67,7 @@ def drac_check_next_upgrade(drac_list, drac_version):
     drac_minor = version_list[1]
 
     drac_upgrade_version=''
-    drac_list.sort(reverse = True)
+    drac_list.sort()
     
     if drac_major == '1': # Hardcoded upgrade path for v1 -> v2
         if drac_minor >= '66':
@@ -81,10 +81,9 @@ def drac_check_next_upgrade(drac_list, drac_version):
                 drac_upgrade_version = i[1]
                 print('Newer, selected ' + i[0])
                 return drac_upgrade_version
-    else:
-        print('Version ' + drac_version + 'already up-to-date (or not supported by script).')
+    if drac_upgrade_version == '':
+        print('Version ' + drac_version + ' already up-to-date (or not supported by script).')
         sys.exit(0)
-
     return drac_upgrade_version
 
 
@@ -97,7 +96,6 @@ def drac_upgrade(chassis, ip, drac_user, drac_pass, drac_upgrade_version):
     child.expect('Password:')
     child.sendline(drac_pass)
     child.expect(pexpect.EOF)
-    #child.expect('To reboot the system  manually, use the "racadm serveraction powercycle" command.')
     return True
 
 def main():
@@ -138,11 +136,10 @@ def main():
             print(chassis + ' is not supported for updates.')
             sys.exit(1)
         
-        print('We are dealing with a', chassis, ', BIOS version', bios_version, 'and DRAC firmware', drac_version)
+        print('We are dealing with a ' + chassis + ', BIOS version ' + bios_version + ' and DRAC firmware ' + drac_version)
                 
-        drac_check_next_upgrade(drac_list, drac_version)
         drac_upgrade(chassis, drac_ip, drac_user, drac_pass, drac_upgrade_version)
-        # Let DRAC settle for 10 minutes after upgrade
+        # Let DRAC settle for 10 minutes after upgrade (needs time to upgrade itself and restart)
         sleep(600)
 
 if __name__ == "__main__":
