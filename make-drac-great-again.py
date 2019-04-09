@@ -6,7 +6,7 @@ import getpass
 import pexpect
 from time import sleep
 
-chassis_supported = ['R620','R630','R640']
+chassis_supported = ['R620','R720xd','R630','R730xd','R640']
 drac_user = 'root'
 
 R620_DRAC_versions = [
@@ -17,7 +17,22 @@ R620_DRAC_versions = [
     ['2.10.10.10','iDRAC-with-Lifecycle-Controller_Firmware_Y5K20_WN32_2.10.10.10_A00.EXE'],
     ['1.66.65','ESM_Firmware_3F4WV_WN64_1.66.65_A00.EXE']
     ]
+R720xd_DRAC_versions = [
+    ['2.61.60.60','iDRAC-with-Lifecycle-Controller_Firmware_VYGMM_WN64_2.61.60.60_A00_02.EXE'],
+    ['2.41.40.40','iDRAC-with-Lifecycle-Controller_Firmware_XTPX4_WN64_2.41.40.40_A00.EXE'],
+    ['2.30.30.30','iDRAC-with-Lifecycle-Controller_Firmware_JHF76_WN64_2.30.30.30_A00.EXE'],
+    ['2.21.21.21','iDRAC-with-Lifecycle-Controller_Firmware_VV01T_WN64_2.21.21.21_A00.EXE'],
+    ['2.10.10.10','iDRAC-with-Lifecycle-Controller_Firmware_Y5K20_WN32_2.10.10.10_A00.EXE'],
+    ['1.66.65','ESM_Firmware_3F4WV_WN64_1.66.65_A00.EXE']
+    ]
 R630_DRAC_versions = [
+    ['2.61.60.60','iDRAC-with-Lifecycle-Controller_Firmware_1HY5M_WN32_2.61.60.60_A00_02.EXE'],
+    ['2.41.40.40','iDRAC-with-Lifecycle-Controller_Firmware_4950Y_WN32_2.41.40.40_A00.EXE'],
+    ['2.30.30.30','iDRAC-with-Lifecycle-Controller_Firmware_5GCHC_WN32_2.30.30.30_A00.EXE'],
+    ['2.21.21.21','iDRAC-with-Lifecycle-Controller_Firmware_1X82C_WN64_2.21.21.21_A00.EXE'],
+    ['2.10.10.10','iDRAC-with-Lifecycle-Controller_Firmware_FM1PC_WN64_2.10.10.10_A00.EXE']
+    ]
+R730xd_DRAC_versions = [
     ['2.61.60.60','iDRAC-with-Lifecycle-Controller_Firmware_1HY5M_WN32_2.61.60.60_A00_02.EXE'],
     ['2.41.40.40','iDRAC-with-Lifecycle-Controller_Firmware_4950Y_WN32_2.41.40.40_A00.EXE'],
     ['2.30.30.30','iDRAC-with-Lifecycle-Controller_Firmware_5GCHC_WN32_2.30.30.30_A00.EXE'],
@@ -112,7 +127,7 @@ def main():
         if opt == '-d':
             drac_ip = arg
         elif opt == '-p':
-            password_file = './' + arg
+            password_file = arg
             with open(password_file) as f:
                 drac_pass = f.readline()
 
