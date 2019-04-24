@@ -1,5 +1,6 @@
 #!/usr/bin/python
 '''Requires firmware upgrade files to be available under <chassis>/<file> -structure'''
+'''v1 & v2 pre 2.21.21.21: max path length 64 characters'''
 import sys, getopt
 import getpass
 # pexpect is needed for logging interactively(hide password from command line) into a DRAC
@@ -50,7 +51,7 @@ def drac_sysinfo_update(ip, drac_user, drac_pass):
     child.sendline(drac_user)
     child.expect('Password: ')
     child.sendline(drac_pass)
-    child.expect('Embedded NIC MAC Addresses:')
+    child.expect(pexpect.EOF)
     return(child.before)
 
 def split_drac_version(version):
