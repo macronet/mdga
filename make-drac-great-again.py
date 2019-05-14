@@ -41,6 +41,7 @@ R730xd_DRAC_versions = [
     ['2.10.10.10','iDRAC-with-LCC_FM1PC_WN64_2.10.10.10_A00.EXE']
     ]
 R640_DRAC_versions = [
+    ['3.32.32.32','iDRAC-with-Lifecycle-Controller_Firmware_VRYKT_WN64_3.32.32.32_A00.EXE'],
     ['3.30.30.30','iDRAC-with-Lifecycle-Controller_Firmware_G6W0W_WN64_3.30.30.30_A00.EXE'],
     ['3.21.21.21','iDRAC-with-Lifecycle-Controller_Firmware_387FW_WN64_3.21.21.21_A00.EXE']
     ]
