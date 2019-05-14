@@ -27,6 +27,7 @@ R720xd_DRAC_versions = [
     ['1.66.65','ESM_Firmware_3F4WV_WN64_1.66.65_A00.EXE']
     ]
 R630_DRAC_versions = [
+    ['2.63.60.61','iDRAC-with-Lifecycle-Controller_Firmware_40T1C_WN32_2.63.60.61_A00.EXE'],
     ['2.61.60.60','iDRAC-with-Lifecycle-Controller_Firmware_1HY5M_WN32_2.61.60.60_A00_02.EXE'],
     ['2.41.40.40','iDRAC-with-Lifecycle-Controller_Firmware_4950Y_WN32_2.41.40.40_A00.EXE'],
     ['2.30.30.30','iDRAC-with-Lifecycle-Controller_Firmware_5GCHC_WN32_2.30.30.30_A00.EXE'],
