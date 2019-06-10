@@ -7,7 +7,7 @@ import getpass
 import pexpect
 from time import sleep
 
-chassis_supported = ['R620','R720xd','R630','R730xd','R640']
+chassis_supported = ['R620','R720xd','R630','R730xd','R640','R740xd']
 drac_user = 'root'
 
 R620_BIOS_versions = [
@@ -23,6 +23,11 @@ R730xd_BIOS_versions = [
     ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE']
     ]
 R640_BIOS_versions = [
+    ['2.2.10','BIOS_WG5H6_WN64_2.2.10.EXE'],
+    ['2.1.8','BIOS_DVH2J_WN64_2.1.8.EXE']
+    ]
+R740xd_BIOS_versions = [
+    ['2.2.10','BIOS_WG5H6_WN64_2.2.10.EXE'],
     ['2.1.8','BIOS_DVH2J_WN64_2.1.8.EXE']
     ]
 
