@@ -1,7 +1,7 @@
 #!/usr/bin/python
 '''Requires firmware upgrade files to be available under <chassis>/<file> -structure'''
 '''v1 & v2 pre 2.21.21.21: max path length 64 characters'''
-import sys, getopt
+import sys, getopt, re
 import getpass
 # pexpect is needed for logging interactively(hide password from command line) into a DRAC
 import pexpect
@@ -23,10 +23,10 @@ R730xd_BIOS_versions = [
     ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE']
     ]
 R640_BIOS_versions = [
-    ['2.2.11','BIOS_NM8WY_WN64_2.2.11.EXE']
+    ['2.3.10','BIOS_2R7N3_WN64_2.3.10.EXE']
     ]
 R740xd_BIOS_versions = [
-    ['2.2.11','BIOS_NM8WY_WN64_2.2.11.EXE']
+    ['2.3.10','BIOS_2R7N3_WN64_2.3.10.EXE']
     ]
 
 def drac_sysinfo_update(ip, drac_user, drac_pass):
@@ -132,10 +132,13 @@ def main():
         if chassis == 'R640':
             jobqueue = drac_jobqueue_update(drac_ip, drac_user, drac_pass)
             if jobqueue.find('Status=Scheduled') != -1:
+            # preliminary skeleton-idea, regex reply & check if there is BIOS-update scheduled
+            # match = re.match("^Job Name=Firmware Update: BIOS$[\n]^Status=Scheduled$", jobqueue, re.M)
+            #if match:
                 print('Update already scheduled, abort.')
                 sys.exit(1)
         else:
-            #12G/13G remote jobqueue view is crap/broken/licenced
+            #12G/13G remote jobqueue view is crap/broken/licenced/working only locally
             print('12G/13G Dell, cannot check if update is already scheduled, push update and hope for the best.')
         bios_list = globals()[chassis + '_BIOS_versions']
         bios_upgrade_version = bios_check_next_upgrade(bios_list, bios_version)
