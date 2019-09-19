@@ -11,21 +11,27 @@ chassis_supported = ['R620','R720xd','R630','R730xd','R640','R740xd']
 drac_user = 'root'
 
 R620_BIOS_versions = [
-    ['2.7.0','BIOS_NGYCX_WN64_2.7.0_01.EXE']
+    ['2.7.0','BIOS_NGYCX_WN64_2.7.0_01.EXE'],
+    ['2.8.0','BIOS_WJ5N7_WN64_2.8.0.EXE']
     ]
 R720xd_BIOS_versions = [
-    ['2.7.0','BIOS_DYH8T_WN64_2.7.0_01.EXE']
+    ['2.7.0','BIOS_DYH8T_WN64_2.7.0_01.EXE'],
+    ['2.8.0','BIOS_WJ5N7_WN64_2.8.0.EXE']
     ]
 R630_BIOS_versions = [
-    ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE']
+    ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE'],
+    ['2.10.5','BIOS_1RKPD_WN64_2.10.5.EXE']
     ]
 R730xd_BIOS_versions = [
-    ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE']
+    ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE'],
+    ['2.10.5','BIOS_1RKPD_WN64_2.10.5.EXE']
     ]
 R640_BIOS_versions = [
+    ['2.1.8','BIOS_DVH2J_WN64_2.1.8.EXE'],
     ['2.3.10','BIOS_2R7N3_WN64_2.3.10.EXE']
     ]
 R740xd_BIOS_versions = [
+    ['2.1.8','BIOS_DVH2J_WN64_2.1.8.EXE'],
     ['2.3.10','BIOS_2R7N3_WN64_2.3.10.EXE']
     ]
 
