@@ -27,11 +27,11 @@ R730xd_BIOS_versions = [
     ['2.10.5','BIOS_1RKPD_WN64_2.10.5.EXE']
     ]
 R640_BIOS_versions = [
-    ['2.1.8','BIOS_DVH2J_WN64_2.1.8.EXE'],
+    ['2.1.7','BIOS_W8Y0W_WN64_2.1.7.EXE'],
     ['2.3.10','BIOS_2R7N3_WN64_2.3.10.EXE']
     ]
 R740xd_BIOS_versions = [
-    ['2.1.8','BIOS_DVH2J_WN64_2.1.8.EXE'],
+    ['2.1.7','BIOS_W8Y0W_WN64_2.1.7.EXE'],
     ['2.3.10','BIOS_2R7N3_WN64_2.3.10.EXE']
     ]
 
