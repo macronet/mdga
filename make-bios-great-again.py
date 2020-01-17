@@ -1,6 +1,5 @@
 #!/usr/bin/python
 '''Requires firmware upgrade files to be available under <chassis>/<file> -structure'''
-'''v1 & v2 pre 2.21.21.21: max path length 64 characters'''
 import sys, getopt, re
 import getpass
 # pexpect is needed for logging interactively(hide password from command line) into a DRAC
@@ -20,19 +19,19 @@ R720xd_BIOS_versions = [
     ]
 R630_BIOS_versions = [
     ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE'],
-    ['2.10.5','BIOS_1RKPD_WN64_2.10.5.EXE']
+    ['2.11.0','BIOS_7YNRC_WN64_2.11.0.EXE']
     ]
 R730xd_BIOS_versions = [
     ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE'],
-    ['2.10.5','BIOS_1RKPD_WN64_2.10.5.EXE']
+    ['2.11.0','BIOS_7YNRC_WN64_2.11.0.EXE']
     ]
 R640_BIOS_versions = [
     ['2.1.7','BIOS_W8Y0W_WN64_2.1.7.EXE'],
-    ['2.3.10','BIOS_2R7N3_WN64_2.3.10.EXE']
+    ['2.4.8','BIOS_9P3C0_WN64_2.4.8.EXE']
     ]
 R740xd_BIOS_versions = [
     ['2.1.7','BIOS_W8Y0W_WN64_2.1.7.EXE'],
-    ['2.3.10','BIOS_2R7N3_WN64_2.3.10.EXE']
+    ['2.4.8','BIOS_9P3C0_WN64_2.4.8.EXE']
     ]
 
 def drac_sysinfo_update(ip, drac_user, drac_pass):
