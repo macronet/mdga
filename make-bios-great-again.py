@@ -11,11 +11,11 @@ drac_user = 'root'
 
 R620_BIOS_versions = [
     ['2.7.0','BIOS_NGYCX_WN64_2.7.0_01.EXE'],
-    ['2.8.0','BIOS_WJ5N7_WN64_2.8.0.EXE']
+    ['2.9.0','BIOS_W1WJW_WN64_2.9.0.EXE']
     ]
 R720xd_BIOS_versions = [
     ['2.7.0','BIOS_DYH8T_WN64_2.7.0_01.EXE'],
-    ['2.8.0','BIOS_WJ5N7_WN64_2.8.0.EXE']
+    ['2.9.0','BIOS_8P8WX_WN64_2.9.0.EXE']
     ]
 R630_BIOS_versions = [
     ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE'],
