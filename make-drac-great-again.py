@@ -29,6 +29,7 @@ R720xd_DRAC_versions = [
     ['1.66.65','ESM_Firmware_3F4WV_WN64_1.66.65_A00.EXE']
     ]
 R630_DRAC_versions = [
+    ['2.75.75.75','iDRAC-with-Lifecycle-Controller_Firmware_KRCXX_WN64_2.75.75.75_A00.EXE'],
     ['2.70.70.70','iDRAC-with-Lifecycle-Controller_Firmware_DNH17_WN64_2.70.70.70_A00.EXE'],
     ['2.63.60.61','iDRAC-with-Lifecycle-Controller_Firmware_40T1C_WN32_2.63.60.61_A00.EXE'],
     ['2.41.40.40','iDRAC-with-Lifecycle-Controller_Firmware_4950Y_WN32_2.41.40.40_A00.EXE'],
@@ -37,6 +38,7 @@ R630_DRAC_versions = [
     ['2.10.10.10','iDRAC-with-LCC_FM1PC_WN64_2.10.10.10_A00.EXE']
     ]
 R730xd_DRAC_versions = [
+    ['2.75.75.75','iDRAC-with-Lifecycle-Controller_Firmware_KRCXX_WN64_2.75.75.75_A00.EXE'],
     ['2.70.70.70','iDRAC-with-Lifecycle-Controller_Firmware_DNH17_WN64_2.70.70.70_A00.EXE'],
     ['2.63.60.61','iDRAC-with-Lifecycle-Controller_Firmware_40T1C_WN32_2.63.60.61_A00.EXE'],
     ['2.41.40.40','iDRAC-with-Lifecycle-Controller_Firmware_4950Y_WN32_2.41.40.40_A00.EXE'],
@@ -45,6 +47,7 @@ R730xd_DRAC_versions = [
     ['2.10.10.10','iDRAC-with-LCC_FM1PC_WN64_2.10.10.10_A00.EXE']
     ]
 R640_DRAC_versions = [
+    ['4.20.20.20','iDRAC-with-Lifecycle-Controller_Firmware_369M3_WN64_4.20.20.20_A00.EXE'],
     ['4.10.10.10','iDRAC-with-Lifecycle-Controller_Firmware_KTC95_WN64_4.10.10.10_A00.EXE'],
     ['4.00.00.00','iDRAC-with-Lifecycle-Controller_Firmware_4JCPK_WN64_4.00.00.00_A00.EXE'],
     ['3.36.36.36','iDRAC-with-Lifecycle-Controller_Firmware_HFMCV_WN64_3.36.36.36_A00.EXE'],
