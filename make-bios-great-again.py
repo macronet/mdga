@@ -27,11 +27,11 @@ R730xd_BIOS_versions = [
     ]
 R640_BIOS_versions = [
     ['2.1.7','BIOS_W8Y0W_WN64_2.1.7.EXE'],
-    ['2.8.2','BIOS_HC85T_WN64_2.8.2_01.EXE']
+    ['2.8.2','BIOS_CR1K4_WN64_2.9.4_01.EXE']
     ]
 R740xd_BIOS_versions = [
     ['2.1.7','BIOS_W8Y0W_WN64_2.1.7.EXE'],
-    ['2.8.2','BIOS_HC85T_WN64_2.8.2_01.EXE']
+    ['2.8.2','BIOS_CR1K4_WN64_2.9.4_01.EXE']
     ]
 
 def drac_sysinfo_update(ip, drac_user, drac_pass):
