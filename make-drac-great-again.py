@@ -7,7 +7,7 @@ import getpass
 import pexpect
 from time import sleep
 
-chassis_supported = ['R620','R720xd','R630','R730xd','R640']
+chassis_supported = ['R620','R720xd','R630','R730xd','R640','R6525']
 drac_user = 'root'
 
 R620_DRAC_versions = [
@@ -46,6 +46,11 @@ R640_DRAC_versions = [
     ['4.40.00.00','iDRAC-with-Lifecycle-Controller_Firmware_62GW1_WN64_4.40.00.00_A00.EXE'],
     ['3.36.36.36','iDRAC-with-Lifecycle-Controller_Firmware_HFMCV_WN64_3.36.36.36_A00.EXE'],
     ['3.21.21.21','iDRAC-with-Lifecycle-Controller_Firmware_387FW_WN64_3.21.21.21_A00.EXE']
+    ]
+
+R6525_DRAC_versions = [
+    ['4.40.00.00','iDRAC-with-Lifecycle-Controller_Firmware_62GW1_WN64_4.40.00.00_A00.EXE'],
+    ['3.36.36.36','iDRAC-with-Lifecycle-Controller_Firmware_HFMCV_WN64_3.36.36.36_A00.EXE']
     ]
 
 def drac_sysinfo_update(ip, drac_user, drac_pass):
