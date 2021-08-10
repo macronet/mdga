@@ -1,6 +1,6 @@
 #!/usr/bin/python
 '''Requires firmware upgrade files to be available under <chassis>/<file> -structure'''
-import sys, getopt, re
+import sys, getopt, re, os
 import getpass
 # pexpect is needed for logging interactively(hide password from command line) into a DRAC
 import pexpect
@@ -9,30 +9,24 @@ from time import sleep
 chassis_supported = ['R620','R720xd','R630','R730xd','R640','R740xd']
 drac_user = 'root'
 
-R620_BIOS_versions = [
-    ['2.7.0','BIOS_NGYCX_WN64_2.7.0_01.EXE'],
-    ['2.9.0','BIOS_W1WJW_WN64_2.9.0.EXE']
-    ]
-R720xd_BIOS_versions = [
-    ['2.7.0','BIOS_DYH8T_WN64_2.7.0_01.EXE'],
-    ['2.9.0','BIOS_8P8WX_WN64_2.9.0.EXE']
-    ]
-R630_BIOS_versions = [
-    ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE'],
-    ['2.12.1','BIOS_9FG85_WN64_2.12.1_01.EXE']
-    ]
-R730xd_BIOS_versions = [
-    ['2.9.1','BIOS_T9YX9_WN64_2.9.1.EXE'],
-    ['2.12.1','BIOS_9FG85_WN64_2.12.1_01.EXE']
-    ]
-R640_BIOS_versions = [
-    ['2.1.7','BIOS_W8Y0W_WN64_2.1.7.EXE'],
-    ['2.10.0','BIOS_NVGR9_WN64_2.10.0.EXE']
-    ]
-R740xd_BIOS_versions = [
-    ['2.1.7','BIOS_W8Y0W_WN64_2.1.7.EXE'],
-    ['2.10.0','BIOS_NVGR9_WN64_2.10.0.EXE']
-    ]
+for chassis in chassis_supported:
+    globals()[chassis + '_BIOS_versions'] = []
+    files = os.listdir(chassis)
+    updates = []
+    for file in files:
+        if 'BIOS' in file:
+            updates.append(file)
+    
+    for update in updates:
+        data = []
+        haystack = update.removesuffix('.EXE').split("_")
+        for needle in haystack:
+            if needle[0].isdigit():
+                if '.' in needle:
+                    data.append(needle)
+                    data.append(update)
+        globals()[chassis + '_BIOS_versions'].append(data)
+    globals()[chassis + '_BIOS_versions'].sort()
 
 def drac_sysinfo_update(ip, drac_user, drac_pass):
     child = pexpect.spawn('/opt/dell/srvadmin/bin/idracadm7 -r ' + ip + ' --nocertwarn -i getsysinfo', timeout=300)
