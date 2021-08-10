@@ -121,7 +121,7 @@ def main():
     if(drac_pass == ''):
         drac_pass = getpass.getpass(prompt='DRAC password:')
     
-    sysinfo = drac_sysinfo_update(drac_ip, drac_user, drac_pass)
+    sysinfo = drac_sysinfo_update(drac_ip, drac_user, drac_pass).decode()
     bios_version = [line for line in sysinfo.split('\n') if "System BIOS Version" in line][-1].split()[-1]
     chassis = [line for line in sysinfo.split('\n') if "System Model" in line][-1].split()[-1]
     drac_version = [line for line in sysinfo.split('\n') if "Firmware Version" in line][-1].split()[-1]
