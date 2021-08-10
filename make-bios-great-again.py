@@ -6,7 +6,7 @@ import getpass
 import pexpect
 from time import sleep
 
-chassis_supported = ['R620','R720xd','R630','R730xd','R640','R740xd']
+chassis_supported = ['R620','R720xd','R630','R730xd','R640','R740xd','R6525']
 drac_user = 'root'
 
 for chassis in chassis_supported:
